@@ -1,60 +1,51 @@
 #include "search_algos.h"
 
 /**
- * print_array - Prints the contents of an array.
- * @array: The source of the array to print.
- * @l: The left index of the array.
- * @r: The right index of the array.
+ * print_arr - helper func to print array everytime array is halved
+ * @array: array
+ * @l: left index of original array
+ * @r: right index of original array
  */
-void print_array(int *array, size_t l, size_t r)
+void print_arr(int *array, size_t l, size_t r)
 {
-	size_t i;
+	size_t i = 0;
 
-	if (array)
+	printf("Searching in array: ");
+	for (i = l; i <= r; i++)
 	{
-		printf("Searching in array: ");
-		for (i = l; i < l + (r - l + 1); i++)
-			printf("%d%s", *(array + i), i < l + (r - l) ? ", " : "\n");
+		if (i != r)
+			printf("%d, ", array[i]);
+		else
+			printf("%d\n", array[i]);
 	}
 }
 
 /**
- * binary_search_index - Searches a value in a sorted array using \
- * a binary search.
- * @array: The array to search in.
- * @l: The left index of the array.
- * @r: The right index of the array.
- * @value: The value to look for.
- *
- * Return: The first index of the value in the array, otherwise -1.
- */
-int binary_search_index(int *array, size_t l, size_t r, int value)
-{
-	size_t m;
-
-	if (!array)
-		return (-1);
-	print_array(array, l, r);
-	m = l + ((r - l) / 2);
-	if (l == r)
-		return (*(array + m) == value ? (int)m : -1);
-	if (value < *(array + m))
-		return (binary_search_index(array, l, m - 1, value));
-	else if (value == *(array + m))
-		return ((int)m);
-	else
-		return (binary_search_index(array, m + 1, r, value));
-}
-
-/**
- * binary_search - Searches a value in a sorted array using a binary search.
- * @array: The array to search in.
- * @size: The length of the array.
- * @value: The value to look for.
- *
- * Return: The index of the value in the array, otherwise -1.
+ * binary_search - search mids
+ * @array: given array of ints
+ * @size: size of array
+ * @value: value to search for
+ * Return: index at which value's found
  */
 int binary_search(int *array, size_t size, int value)
 {
-	return (binary_search_index(array, 0, size - 1, value));
+	size_t mid = 0;
+	size_t l = 0;
+	size_t r = size - 1;
+
+	if (!array)
+		return (-1);
+
+	while (l <= r)
+	{
+		print_arr(array, l, r);
+		mid = (l + r) / 2;
+		if (array[mid] == value)
+			return (mid);
+		else if (array[mid] > value)
+			r = mid - 1;
+		else
+			l = mid + 1;
+	}
+	return (-1);
 }
